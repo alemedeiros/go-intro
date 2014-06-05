@@ -1,0 +1,185 @@
+% presentation.tex
+%   by alemedeiros <alexandre.n.medeiros _at_ gmail.com>
+%
+% Presentation of Golang for parallel programming course.
+
+\documentclass{beamer}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{array}
+\usepackage{textcomp}
+\usepackage{listings}
+\usepackage{color}
+
+% change font
+\usepackage{gillius}
+
+% theme settings
+\usetheme{Antibes}     % good
+%\usetheme{Bergen}      % check
+%\usetheme{Hannover}    % pretty nice, find better colours
+%\usetheme{Montpellier} % looks nice
+
+%\usecolortheme{dolphin}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+\usecolortheme{whale}
+
+\beamertemplatetransparentcoveredmedium
+
+
+% title & author info
+\title[Golang]{Introdução a Go}
+\subtitle{MO644 -- Programação Paralela}
+\author[Alexandre Medeiros]{Alexandre~Medeiros\\{\footnotesize\tt alexandre.n.medeiros@gmail.com}}
+\institute[Unicamp]
+{
+    Instituto de Computação\\
+    Universidade Estadual de Campinas\\
+}
+\date[2014s1]{\today}
+\subject{MO644}
+
+\begin{document}
+
+% titleframe
+\frame{\titlepage}
+
+\section{Introdução}
+\begin{frame}
+    {O que é Go?}
+    \begin{block}{Golang}
+        Go, ou Golang, é uma linguagem de programação desenvolvida por Robert
+        Griesemer, Rob Pike and Ken Thompson no Google.
+    \end{block}
+
+    \vspace{10pt}
+    \centering
+    \includegraphics[width=.5\textwidth]{bumper.png}
+\end{frame}
+
+\begin{frame}
+    {Principais ideias}
+    \begin{columns}[c]
+        % first column
+        \column{.4\textwidth}
+        \begin{itemize}[<+->]
+            \item Compilação rápida
+            \item Execução rápida
+            \item Simples de se programar
+        \end{itemize}
+
+        % second column
+        \column{.6\textwidth}
+        \centering
+        \includegraphics[width=.6\textwidth]{gopherbw.png}
+        \note{Go Gopher foi criado por Renée French.}
+    \end{columns}
+\end{frame}
+
+\subsection{Funcionalidades}
+\begin{frame}
+    {Funcionalidades interessantes}
+    \begin{itemize}
+        \item Estaticamente tipada
+        \item {\em Garbage collector}
+        \item Sintaxe inspirada em C
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    {E mais importante!}
+    \pause
+    Projetada para ser simples de se criar programas paralelos.
+\end{frame}
+
+\section{\em Hands-on!}
+\begin{frame}
+    {Exemplos}
+    Vejamos como Go funciona na prática!
+\end{frame}
+
+\subsection{\tt channels}
+\begin{frame}
+    {Canais de comunicação}
+\end{frame}
+
+\subsection{\tt goroutines}
+\begin{frame}
+    {goroutines}
+\end{frame}
+
+\subsection{\tt closure}
+\begin{frame}
+    {Funções anônimas}
+\end{frame}
+
+\subsection{\tt buffered channels}
+\begin{frame}
+    {Comunicação usando {\em buffers}}
+\end{frame}
+
+\subsection{\tt select}
+\begin{frame}
+    {Recebendo de mais de um canal}
+\end{frame}
+
+\subsection{\tt range}
+\begin{frame}
+    {for-each}
+\end{frame}
+
+\subsection{{\tt range} {\em over channels}}
+\begin{frame}
+    {for-each em um canal}
+\end{frame}
+
+\section{E ainda tem mais}
+\subsection{Ferramentas}
+\begin{frame}
+    {Conjunto de ferramentas completo}
+    \begin{itemize}[<+->]
+        \item go build
+        \item go run
+        \item gofmt
+        \item godoc
+        \item go get
+    \end{itemize}
+\end{frame}
+\subsection{Links úteis}
+\begin{frame}
+    {Referências}
+    \begin{itemize}
+        \item \url{tour.golang.org}
+        \item \url{play.golang.org}
+        \item \url{gobyexample.com}
+    \end{itemize}
+\end{frame}
+
+\section{\em That's all folks}
+\begin{frame}
+    \centering
+    \Large
+    Dúvidas?
+
+    \vspace{25pt}
+    \includegraphics[width=.2\textwidth]{frontpage.png}
+\end{frame}
+
+\begin{frame}
+    \centering
+    \Large
+    Fim!
+
+    \vspace{20pt}
+    \normalsize
+    Contato: {\tt alexandre.n.medeiros@gmail.com}
+\end{frame}
+
+\end{document}
