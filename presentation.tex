@@ -9,39 +9,42 @@
 \usepackage[T1]{fontenc}
 
 \usepackage{graphicx}
-\usepackage{subfigure}
 \usepackage{float}
 \usepackage{array}
 \usepackage{textcomp}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{hyperref}
+
+% hyper reference commands
+\newcommand{\link}[1]{\href{http://#1}{\tt #1}}
+\newcommand{\email}[1]{\href{mailto:#1}{\tt #1}}
 
 % change font
 \usepackage{gillius}
 
 % theme settings
-\usetheme{Antibes}     % good
-%\usetheme{Bergen}      % check
-%\usetheme{Hannover}    % pretty nice, find better colours
-%\usetheme{Montpellier} % looks nice
-
-%\usecolortheme{dolphin}
-%\usecolortheme{lily}
-%\usecolortheme{orchid}
-%\usecolortheme{rose}
+\usetheme{Antibes}
 \usecolortheme{whale}
 
-\beamertemplatetransparentcoveredmedium
+\beamertemplatetransparentcoveredmedium{}
 
+% listings settings
+\usepackage{lstlang0}
+\lstset{%
+    tabsize=4,
+    basicstyle=\scriptsize\tt
+}
+\renewcommand\lstlistingname{Programa}
 
 % title & author info
-\title[Golang]{Introdução a Go}
-\subtitle{MO644 -- Programação Paralela}
-\author[Alexandre Medeiros]{Alexandre~Medeiros\\{\footnotesize\tt alexandre.n.medeiros@gmail.com}}
+\title[Introdução a Go]{Introdução a Go para programação paralela}
+\subtitle{MO644 --- Programação Paralela}
+\author[Alexandre~Medeiros]{Alexandre~Medeiros\\{\footnotesize\email{alexandre.n.medeiros@gmail.com}}}
 \institute[Unicamp]
 {
     Instituto de Computação\\
-    Universidade Estadual de Campinas\\
+    Universidade Estadual de Campinas
 }
 \date[2014s1]{\today}
 \subject{MO644}
@@ -51,15 +54,35 @@
 % titleframe
 \frame{\titlepage}
 
+\begin{frame}
+    \centering
+    Estes slides e os códigos usados na apresentação podem ser encontrados na
+    minha página!
+
+    \vspace{20pt}
+
+    % TODO: Get correct link
+    \link{alemedeiros.sdf.org}
+\end{frame}
+
 \section{Introdução}
 \begin{frame}
     {O que é Go?}
-    \begin{block}{Golang}
-        Go, ou Golang, é uma linguagem de programação desenvolvida por Robert
-        Griesemer, Rob Pike and Ken Thompson no Google.
-    \end{block}
+    \only<1>{
+        \begin{block}{Golang}
+            Go, ou Golang, é uma linguagem de programação {\em Open Source} onde
+            é fácil fazer programas simples, confiáveis e eficientes.
+        \end{block}
+    }
 
-    \vspace{10pt}
+    \only<2>{
+        \begin{block}{Criadores}
+            A linguagem foi desenvolvida por Robert Griesemer, Rob Pike e Ken
+            Thompson no Google.
+        \end{block}
+    }
+
+    \vfill
     \centering
     \includegraphics[width=.5\textwidth]{bumper.png}
 \end{frame}
@@ -79,24 +102,24 @@
         \column{.6\textwidth}
         \centering
         \includegraphics[width=.6\textwidth]{gopherbw.png}
-        \note{Go Gopher foi criado por Renée French.}
+        \note{Go Gopher foi criado por Renée French, mulher do Rob Pike.}
     \end{columns}
 \end{frame}
 
 \subsection{Funcionalidades}
 \begin{frame}
     {Funcionalidades interessantes}
-    \begin{itemize}
-        \item Estaticamente tipada
-        \item {\em Garbage collector}
+    \begin{itemize}[<+->]
         \item Sintaxe inspirada em C
+        \item {\em Garbage-collected}
+        \item Inferência de tipos de variáveis
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     {E mais importante!}
     \pause
-    Projetada para ser simples de se criar programas paralelos.
+    Projetada para ser simples de se criar programas concorrentes.
 \end{frame}
 
 \section{\em Hands-on!}
@@ -105,40 +128,165 @@
     Vejamos como Go funciona na prática!
 \end{frame}
 
-\subsection{\tt channels}
-\begin{frame}
-    {Canais de comunicação}
+\begin{frame}[fragile]
+    {Hello, World!}
+    \begin{columns}[c]
+        % Code
+        \column{.5\textwidth}
+        \lstinputlisting[language=Go,caption=hello.go]{examples/hello.go}
+        \note{A linguagem por padrão trata todas strings como UTF-8!}
+
+        % Output
+        \column{.5\textwidth}
+        \verb|$ go run hello.go|
+        \lstinputlisting{output/hello.out}
+    \end{columns}
 \end{frame}
 
 \subsection{\tt goroutines}
 \begin{frame}
     {goroutines}
+    Uma {\tt goroutine} é uma {\em lightweight thread}, gerenciada pelo {\em runtime}.
 \end{frame}
 
-\subsection{\tt closure}
-\begin{frame}
-    {Funções anônimas}
+\begin{frame}[fragile]
+    {goroutines}
+
+    % Code
+    \lstinputlisting[language=Go,caption=goroutine.go,linerange={8-18}]{examples/goroutine.go}
 \end{frame}
+
+\begin{frame}[fragile]
+    {goroutines}
+
+    % Output
+    \verb|$ go run goroutine.go|
+    \lstinputlisting{output/goroutine.out}
+    \note{Note que não há sincronia e o programa acaba quando a master thread
+    termina}
+\end{frame}
+
+\subsection{\tt channels}
+\begin{frame}
+    {Canais de comunicação}
+
+    Os {\tt channels} são a principal maneira de comunicação e sincronização
+    entre {\tt goroutines}.
+\end{frame}
+
+\begin{frame}[fragile]
+    {Canais de comunicação}
+
+    % Code
+    \lstinputlisting[language=Go,caption=channels.go,linerange={8-23}]{examples/channels.go}
+\end{frame}
+
+\begin{frame}[fragile]
+    {Canais de comunicação}
+
+    % Output
+    \verb|$ go run channels.go|
+    \lstinputlisting{output/channels.out}
+    \note{Repare que para enviar o conteúdo no channel, a goroutine fica
+    bloqueada até a goroutine principal estar pronta para receber.}
+\end{frame}
+
 
 \subsection{\tt buffered channels}
 \begin{frame}
-    {Comunicação usando {\em buffers}}
+    {Comunicação não bloqueante}
+
+    Para que a {\tt goroutine} não fique bloqueada na hora de enviar dados, é
+    possível criar um canal com um {\em buffer}.
+\end{frame}
+
+\begin{frame}[fragile]
+    {Comunicação não bloqueante}
+
+    % Code
+    \lstinputlisting[language=Go,caption=buffered-channels.go,linerange={8-27}]{examples/buffered-channels.go}
+\end{frame}
+
+\begin{frame}[fragile]
+    {Comunicação não bloqueante}
+
+    % Output
+    \verb|$ go run buffered-channels.go|
+    \lstinputlisting{output/buffered-channels.out}
 \end{frame}
 
 \subsection{\tt select}
 \begin{frame}
-    {Recebendo de mais de um canal}
+    {Múltiplos canais}
+
+    O {\tt select} é similar a um switch-case, sua função é receber ou enviar
+    dados com múltiplos canais.
+\end{frame}
+
+\begin{frame}[fragile]
+    {Múltiplos canais}
+
+    % Code
+    \lstinputlisting[language=Go,caption=select.go,linerange={13-28}]{examples/select.go}
+\end{frame}
+
+\begin{frame}[fragile]
+    {Múltiplos canais}
+
+    % Output
+    \verb|$ go run select.go|
+    \lstinputlisting{output/select.out}
 \end{frame}
 
 \subsection{\tt range}
 \begin{frame}
     {for-each}
+
+    Como muitas linguagens atuais, Go também possui um for-each.
+\end{frame}
+
+\begin{frame}[fragile]
+    {for-each}
+
+    % Code
+    \lstinputlisting[language=Go,caption=range.go,linerange={5-11}]{examples/range.go}
+\end{frame}
+
+\begin{frame}[fragile]
+    {for-each}
+
+    % Output
+    \verb|$ go run range.go|
+    \lstinputlisting{output/range.out}
 \end{frame}
 
 \subsection{{\tt range} {\em over channels}}
 \begin{frame}
     {for-each em um canal}
+
+    E o for-each também pode ser utilizado em um canal!
 \end{frame}
+
+\begin{frame}[fragile]
+    {for-each em um canal}
+
+    % Code
+    \lstinputlisting[language=Go,caption=range-channel.go,linerange={5-22}]{examples/range-channel.go}
+\end{frame}
+
+\begin{frame}[fragile]
+    {for-each em um canal}
+
+    % Output
+    \verb|$ go run range-channel.go|
+    \lstinputlisting{output/range-channel.out}
+\end{frame}
+
+% Optional. Only if I have time to prepare it!
+%   \subsection{\tt closure}
+%   \begin{frame}
+%       {Funções anônimas}
+%   \end{frame}
 
 \section{E ainda tem mais}
 \subsection{Ferramentas}
@@ -152,14 +300,20 @@
         \item go get
     \end{itemize}
 \end{frame}
+
 \subsection{Links úteis}
 \begin{frame}
     {Referências}
     \begin{itemize}
-        \item \url{tour.golang.org}
-        \item \url{play.golang.org}
-        \item \url{gobyexample.com}
+        \item \link{tour.golang.org}
+        \item \link{gobyexample.com}
     \end{itemize}
+\end{frame}
+
+\begin{frame}
+    {Divirta-se você também!}
+    \centering
+    \link{play.golang.org}
 \end{frame}
 
 \section{\em That's all folks}
@@ -168,7 +322,7 @@
     \Large
     Dúvidas?
 
-    \vspace{25pt}
+    \vfill
     \includegraphics[width=.2\textwidth]{frontpage.png}
 \end{frame}
 
@@ -179,7 +333,7 @@
 
     \vspace{20pt}
     \normalsize
-    Contato: {\tt alexandre.n.medeiros@gmail.com}
+    Contato: \email{alexandre.n.medeiros@gmail.com}
 \end{frame}
 
 \end{document}
